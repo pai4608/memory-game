@@ -30,9 +30,11 @@ function App() {
   const [score, setScore] = useState(0);
   const [highest, setHighest] = useState(0);
 
+  // With empty dependency, useEffect only runs once on initial load.
   useEffect(() => {
     async function fetchData() {
       const promises = pokemons.map(async (name) => {
+        // fetch() returns promise.
         const response = await fetch(
           `https://pokeapi.co/api/v2/pokemon/${name}`,
           {
@@ -46,6 +48,7 @@ function App() {
           url: data.sprites.other.dream_world.front_default,
         };
       });
+      // Promise.all() returns array of data returned from promises if all promises resolve successfully.
       const resolvedArtList = await Promise.all(promises);
       setArtList(resolvedArtList);
     }
@@ -59,6 +62,7 @@ function App() {
       setClicked([]);
     } else {
       if (score + 1 > highest) {
+        // current score is before click so need to set score + 1
         setHighest(score + 1);
       }
       setClicked((prev) => [...prev, name]);
@@ -68,6 +72,7 @@ function App() {
     setArtList(shuffle);
   }
 
+  // Array of Card Components
   const cardList = artList.map((art) => (
     <Card
       key={art.name}
@@ -76,9 +81,11 @@ function App() {
       onClick={() => clickHandler(art.name)}
     />
   ));
+
   return (
     <>
       <div className="board">
+        {score === 20 && <h1 className="winning">You Win!!</h1>}
         <h1>Score : {score}</h1>
         <h1>Highest : {highest}</h1>
       </div>
