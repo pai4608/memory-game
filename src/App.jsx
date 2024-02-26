@@ -30,8 +30,10 @@ function App() {
   const [score, setScore] = useState(0);
   const [highest, setHighest] = useState(0);
 
+  console.log("render!!");
   // With empty dependency, useEffect only runs once on initial load.
   useEffect(() => {
+    console.log("Initiating!!");
     async function fetchData() {
       const promises = pokemons.map(async (name) => {
         // fetch() returns promise.
